@@ -1,3 +1,17 @@
-<h1><?= $this->escapeHtml($this->pageTitle ?? "fallback")   ?> </h1>
-<p><?= $this->escapeHtml($this->content ?? "Contenue indisponible pour le moment")  ?>   </p>
-<p><a href="<?= $this->url('product') ?>">Retour à la liste des produits</a></p>
+<h1><?= $this->escapeHtml($this->pageTitle ?? 'Fallback') ?></h1>
+
+<?php if (isset($this->product)): ?>
+    <div class="card">
+        <div class="card-body">
+            <h2><?= $this->escapeHtml($this->product->getName()) ?></h2>
+            <p><strong>ID:</strong> <?= $this->escapeHtml($this->product->getId()) ?></p>
+            <p><strong>Prix:</strong> <?= number_format($this->product->getPrice(), 2, ',', ' ') ?> €</p>
+            <p><strong>Description:</strong></p>
+            <p><?= $this->escapeHtml($this->product->getDescription() ?? 'Aucune description') ?></p>
+            <!-- Laminas Feature: Génération d'URL nommée -->
+            <a href="<?= $this->url('product') ?>" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
+<?php else: ?>
+    <p>Produit non trouvé.</p>
+<?php endif; ?>

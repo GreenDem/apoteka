@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace Application;
 
 use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\ResultSet\ResultSet;
-use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Hydrator\ReflectionHydrator;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
+
+
+use Application\Model\ProductTableGateway;
+use Application\Controller\Factory\ProductControllerFactory;
+
+
 return [
 
     // CONFIGURATION DATABASE A CHANGER AU BESOIN DANS ~\config\autoload\local.php.dist
-    'laminas_db',
+    'db',
 
 
 
@@ -71,7 +76,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\ProductController::class => InvokableFactory::class,
+            Controller\ProductController::class => ProductControllerFactory::class,
         ],
     ],
     'view_manager' => [
@@ -91,6 +96,8 @@ return [
         ],
     ],
     'service_manager' => [
+
+        //A REFRACTO SI DEVIENT TROP GROS
         'factories' => [
             Model\ProductTable::class => function ($container) {
                 $tableGateway = $container->get(Model\ProductTableGateway::class);
@@ -98,9 +105,9 @@ return [
             },
             Model\ProductTableGateway::class => function ($container) {
                 $dbAdapter = $container->get(AdapterInterface::class);
-                $hydrator = new \Laminas\Hydrator\ClassMethodsHydrator(); // ou ReflectionHydrator
+                $hydrator = new ReflectionHydrator();
                 $resultSetPrototype = new \Laminas\Db\ResultSet\HydratingResultSet($hydrator, new Model\Product());
-                return new TableGateway('product', $dbAdapter, null, $resultSetPrototype);
+                return new ProductTableGateway('products', $dbAdapter, null, $resultSetPrototype);
             },
         ],
     ],

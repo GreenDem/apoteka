@@ -17,10 +17,12 @@ return [
 
     
     'db' => [
-        'driver'    =>'pdo_Mysql',
+        'driver'    =>'Pdo_Mysql',
         'hostname'  =>'localhost',
         'port'      =>3366,
-        'database'  =>'apoteka'
+        'database'  =>'apoteka',
+
+        
         'username'  =>'root',
         'password'  =>'',
     ]

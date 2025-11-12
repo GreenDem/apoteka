@@ -1,5 +1,5 @@
 {
-    "name": "Apoteka - Une app pour Tester Laminas",
+    "name": "apoteka/apoteka-ap",
     "description": "Une application de gestion d'une apoteka (pharmacie) développée avec le framework Laminas.",
     "type": "project",
     "license": "BSD-3-Clause",
