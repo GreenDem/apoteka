@@ -13,4 +13,18 @@ class IndexController extends AbstractActionController
     {
         return new ViewModel();
     }
+
+
+    public function aboutAction()
+    {
+        return new ViewModel(
+            [
+                'pageTitle' => 'Description de l\'App',
+                'content' => 'Page de description de l\'app Apoteka. '
+            ]
+        );
+        
+    }
+
+
 }

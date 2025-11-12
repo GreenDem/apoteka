@@ -1,8 +1,5 @@
-sql
 
 create database if not exists apoteka;
-charset utf8mb4;
-collate utf8mb4_general_ci; 
 use apoteka;
 
 create user if not exists 'apoteker'@'localhost' identified by 'admin123';

@@ -1,0 +1,3 @@
+<h1><?= $this->escapeHtml($this->pageTitle ?? "fallback")   ?> </h1>
+<p><?= $this->escapeHtml($this->content ?? "Contenue indisponible pour le moment")  ?>   </p>
+<p><a href="<?= $this->url('product') ?>">Retour à la liste des produits</a></p>

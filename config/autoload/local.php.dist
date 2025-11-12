@@ -13,4 +13,17 @@
  */
 
 return [
+
+
+    
+    'db' => [
+        'driver'    =>'pdo_Mysql',
+        'hostname'  =>'localhost',
+        'port'      =>3366,
+        'database'  =>'apoteka'
+        'username'  =>'root',
+        'password'  =>'',
+    ]
+
+
 ];
