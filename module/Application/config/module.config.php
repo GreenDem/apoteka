@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -63,30 +66,45 @@ return [
 
             ],
 
-        ],],
-        'controllers' => [
-            'factories' => [
-                Controller\IndexController::class => InvokableFactory::class,
-                Controller\ProductController::class => InvokableFactory::class, 
-            ],
         ],
-        'view_manager' => [
-            'display_not_found_reason' => true,
-            'display_exceptions' => true,
-            'doctype' => 'HTML5',
-            'not_found_template' => 'error/404',
-            'exception_template' => 'error/index',
-            'template_map' => [
-                'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-                'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-                'error/404' => __DIR__ . '/../view/error/404.phtml',
-                'error/index' => __DIR__ . '/../view/error/index.phtml',
-            ],
-            'template_path_stack' => [
-                __DIR__ . '/../view',
-            ],
+    ],
+    'controllers' => [
+        'factories' => [
+            Controller\IndexController::class => InvokableFactory::class,
+            Controller\ProductController::class => InvokableFactory::class,
         ],
-    
+    ],
+    'view_manager' => [
+        'display_not_found_reason' => true,
+        'display_exceptions' => true,
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
+        'template_map' => [
+            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404' => __DIR__ . '/../view/error/404.phtml',
+            'error/index' => __DIR__ . '/../view/error/index.phtml',
+        ],
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            Model\ProductTable::class => function ($container) {
+                $tableGateway = $container->get(Model\ProductTableGateway::class);
+                return new Model\ProductTable($tableGateway);
+            },
+            Model\ProductTableGateway::class => function ($container) {
+                $dbAdapter = $container->get(AdapterInterface::class);
+                $hydrator = new \Laminas\Hydrator\ClassMethodsHydrator(); // ou ReflectionHydrator
+                $resultSetPrototype = new \Laminas\Db\ResultSet\HydratingResultSet($hydrator, new Model\Product());
+                return new TableGateway('product', $dbAdapter, null, $resultSetPrototype);
+            },
+        ],
+    ],
+
 
 
 ];
