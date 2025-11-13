@@ -99,6 +99,10 @@ return [
 
         //A REFRACTO SI DEVIENT TROP GROS
         'factories' => [
+
+
+ // ============================================PRODUCTS============================================
+
             Model\ProductTable::class => function ($container) {
                 $tableGateway = $container->get(Model\ProductTableGateway::class);
                 return new Model\ProductTable($tableGateway);
@@ -106,8 +110,16 @@ return [
             Model\ProductTableGateway::class => function ($container) {
                 $dbAdapter = $container->get(AdapterInterface::class);
                 $hydrator = new ReflectionHydrator();
-                $resultSetPrototype = new \Laminas\Db\ResultSet\HydratingResultSet($hydrator, new Model\Product());
-                return new ProductTableGateway('products', $dbAdapter, null, $resultSetPrototype);
+
+                $resultSetPrototype = new \Laminas\Db\ResultSet\HydratingResultSet(
+                    $hydrator,
+                     new Model\Product());
+
+                return new ProductTableGateway(
+                    'products', 
+                    $dbAdapter, 
+                    null, 
+                    $resultSetPrototype);
             },
         ],
     ],
