@@ -1,0 +1,47 @@
+<h1>Utilisateurs</h1>
+<a class="btn btn-primary" href="<?= $this->url('user', ['action' => 'add']) ?>">Ajouter</a>
+
+<?php foreach ($this->flashMessenger()->getMessages() as $msg): ?>
+       <div class="alert alert-success"><?= $this->escapeHtml($msg) ?></div>
+   <?php endforeach; ?>
+
+   <table class="table">
+       <thead>
+           <tr>
+               <th>Email</th>
+               <th>Rôles</th>
+               <th>Créé le</th>
+               <th>Actions</th>
+           </tr>
+       </thead>
+       <tbody>
+           <?php foreach ($users as $user): ?>
+               <tr>
+                   <td><?= $this->escapeHtml($user->getEmail()) ?></td>
+                   <td><?= $this->escapeHtml(implode(', ', $user->getRoles())) ?></td>
+                   <td><?= $this->escapeHtml($user->getCreatedAt()) ?></td>
+                   <td>
+                       <a href="<?= $this->url('user', ['action' => 'view', 'id' => $user->getId()]) ?>">Voir</a>
+                       |
+                       <a href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->getId()]) ?>">Modifier</a>
+                       |
+                       <a href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->getId()]) ?>">Désactiver</a>
+                   </td>
+               </tr>
+           <?php endforeach; ?>
+       </tbody>
+   </table>
+
+   <nav>
+       <ul class="pagination">
+           <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+               <a class="page-link" href="<?= $this->url('user', [], ['query' => ['page' => $page - 1]]) ?>">Précédent</a>
+           </li>
+           <li class="page-item">
+               <span class="page-link">Page <?= $page ?></span>
+           </li>
+           <li class="page-item <?= count($users) < $pageSize ? 'disabled' : '' ?>">
+               <a class="page-link" href="<?= $this->url('user', [], ['query' => ['page' => $page + 1]]) ?>">Suivant</a>
+           </li>
+       </ul>
+   </nav>

@@ -1,0 +1,7 @@
+<h1><?= $this->escapeHtml($user->getEmail()) ?></h1>
+<ul>
+    <li>Rôles : <?= $this->escapeHtml(implode(', ', $user->getRoles())) ?></li>
+    <li>Créé le : <?= $this->escapeHtml($user->getCreatedAt()) ?></li>
+    <li>Dernière connexion : <?= $this->escapeHtml($user->getLastLoginAt() ?? 'N/A') ?></li>
+</ul>
+<a href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->getId()]) ?>">Modifier</a>

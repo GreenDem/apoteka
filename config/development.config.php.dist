@@ -3,7 +3,9 @@
 return [
     // Additional modules to include when in development mode
     'modules' => [
-        'Laminas\Paginator\Adapter\LaminasDb',
+        'Laminas\Mvc\Plugin\FlashMessenger',
+        'Laminas\Session',
+        'Laminas\Mvc\Plugin\Identity',
         'Laminas\Paginator',
         'Laminas\Db',
     ],

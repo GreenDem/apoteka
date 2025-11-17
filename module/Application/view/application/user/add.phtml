@@ -1,0 +1,15 @@
+<?php
+   $form->prepare();
+   echo $this->form()->openTag($form);
+   echo $this->formRow($form->get('email'));
+   echo $this->formRow($form->get('password'));
+   echo $this->formRow($form->get('password_confirm'));
+   echo $this->formRow($form->get('roles'));
+   echo $this->formRow($form->get('csrf'));
+   echo $this->formSubmit($form->get('submit'));
+   echo $this->form()->closeTag();
+   
+
+foreach ($this->flashMessenger()->getMessages() as $msg): ?>
+       <div class="alert alert-success"><?= $this->escapeHtml($msg) ?></div>
+   <?php endforeach; ?>

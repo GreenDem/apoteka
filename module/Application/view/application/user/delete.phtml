@@ -1,0 +1,9 @@
+<h1>Désactiver <?= $this->escapeHtml($user->getEmail()) ?></h1>
+
+<form method="post">
+    <?= $this->formRow($form->get('csrf')) ?? '' ?>
+    <p>Raison (optionnel)</p>
+    <textarea name="reason" class="form-control"></textarea>
+    <button type="submit" class="btn btn-danger">Confirmer</button>
+    <a href="<?= $this->url('user') ?>" class="btn btn-secondary">Annuler</a>
+</form>

@@ -31,11 +31,21 @@ class User
 
     //Roles getter and setter
     public function getRoles(): array { return $this->roles; }
-    public function setRoles(array $roles): void {
+    public function setRoles(array|string $roles): void
+    {
         $allowed = ['user', 'admin']; //Roles autorisés UNIQUEMENT user et admin
-        $clean = array_values(array_unique(array_map('strval', $roles)));
+        $list = is_array($roles)
+            ? $roles
+            : json_decode((string) $roles, true, 512, JSON_THROW_ON_ERROR);
+
+        $clean = array_values(array_unique(array_map('strval', $list)));
         $clean = array_values(array_intersect($clean, $allowed));
         $this->roles = $clean === [] ? ['user'] : $clean;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles, true);
     }
 
     //Created at getter and setter

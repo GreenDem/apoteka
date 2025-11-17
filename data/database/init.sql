@@ -7,13 +7,23 @@ grant all privileges on apoteka.* to 'apoteker'@'localhost';
 flush privileges;
 
 
-create table if not exists users (
-    id int auto_increment primary key,
-    username varchar(50) not null unique,
-    password varchar(255) not null,
-    role enum('admin', 'pharmacist') not null,
-    created_at timestamp default current_timestamp
-);
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(50) NOT NULL DEFAULT 'Client' COLLATE 'utf8mb4_uca1400_ai_ci',
+	`password_hash` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_uca1400_ai_ci',
+	`roles` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_uca1400_ai_ci',
+	`created_at` TIMESTAMP NULL DEFAULT current_timestamp(),
+	`email` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_uca1400_ai_ci',
+	`deleted_at` TIMESTAMP NULL DEFAULT NULL,
+	`updated_at` TIMESTAMP NULL DEFAULT NULL,
+	`last_login_at` TIMESTAMP NULL DEFAULT NULL,
+	PRIMARY KEY (`id`) USING BTREE,
+	UNIQUE INDEX `username` (`username`) USING BTREE
+)
+COLLATE='utf8mb4_uca1400_ai_ci'
+ENGINE=InnoDB
+;
+
 
 create table if not exists orders (
     id int auto_increment primary key,

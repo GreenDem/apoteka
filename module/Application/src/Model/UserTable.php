@@ -116,6 +116,7 @@ final class UserTable
 
         // création du tableau des données à enregistrer
         $data = [
+            'username'      => $user->getEmail(), // Préparation de la ROW
             'email'         => $user->getEmail(),
             'password_hash' => $user->getPasswordHash(),
             'roles'         => $rolesJson,
@@ -137,6 +138,14 @@ final class UserTable
 
         // mise à jour de l'utilisateur
         $this->tableGateway->update($data, ['id' => $user->getId()]);
+    }
+
+    public function touchLastLoginAt(int $userId): void
+    {
+        $this->tableGateway->update(
+            ['last_login_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')],
+            ['id' => $userId]
+        );
     }
 
     /**
