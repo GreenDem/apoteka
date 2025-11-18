@@ -1,16 +1,18 @@
-<h1><?= $this->escapeHtml($this->pageTitle ?? 'Fallback') ?></h1>
+<h1 class="mb-4 text-center"><?= $this->escapeHtml($this->pageTitle ?? 'Fallback 2') ?></h1>
 
+<a href="<?= $this->url('product', ['action' => 'add']) ?>" class="btn btn-primary mb-3">Ajouter un produit</a>
 <?php if (empty($this->products)): ?>
     <p>Aucun produit disponible pour le moment.</p>
-<?php else: ?>
+    <?php else: ?>
+       <!-- TODO : Hauteur fixe a determiner pour aligner les cartes -->
     <div class="row row-cols-1 row-cols-md-4 g-4"> <?php foreach ($this->products as $product): ?>
             <div class="col">
                 <div class="card">
-                    <img src="https://www.shutterstock.com/shutterstock/photos/2059817444/display_1500/stock-vector-no-image-available-photo-coming-soon-illustration-vector-2059817444.jpg"
+                    <img src="<?= $this->escapeHtmlAttr($product->getImg() ?? 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg') ?>"
                         class="card-img-top object-fit-cover" alt="<?= $this->escapeHtml($product->getName()) ?>">
                     <div class="card-body">
                         <div class="card-body">
-                            <h5 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h5>
+                            <h5 class="card-title text-center text-primary fw-bold"><?= $this->escapeHtml($product->getName()) ?></h5>
                             <p class="card-text"><?= $this->escapeHtml($product->getDescription() ?? '') ?></p>
                             <p class="card-text"><small
                                     class="text-body-secondary"><?= number_format($product->getPrice(), 2, ',', ' ') ?>

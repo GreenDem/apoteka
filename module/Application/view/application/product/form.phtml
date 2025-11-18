@@ -1,0 +1,84 @@
+<?php
+/**
+ * Formulaire partagé pour add/edit
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Application\Form\ProductForm $form
+ */
+$form = $this->form;
+// Vérifie si le champ id existe pour déterminer si c'est une édition
+$isEdit = $form->has('id') && $form->get('id')->getValue() !== null;
+?>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title mb-0">
+                    <?= $isEdit ? 'Modifier le produit' : 'Ajouter un produit' ?>
+                </h3>
+            </div>
+            <div class="card-body">
+                <?= $this->form()->openTag($form) ?>
+                
+                <?php if ($form->has('id')): ?>
+                    <?= $this->formHidden($form->get('id')) ?>
+                <?php endif; ?>
+                <?php if ($form->has('csrf')): ?>
+                    <?= $this->formHidden($form->get('csrf')) ?>
+                <?php endif; ?>
+
+                <div class="mb-3">
+                    <?= $this->formLabel($form->get('name')) ?>
+                    <?= $this->formText($form->get('name')) ?>
+                    <?= $this->formElementErrors($form->get('name'), 
+                    ['class' => 'text-danger small']) ?>
+                </div>
+
+                <div class="mb-3">
+                    <?= $this->formLabel($form->get('description')) ?>
+                    <?= $this->formTextarea($form->get('description')) ?>
+                    <?= $this->formElementErrors($form->get('description'), 
+                    ['class' => 'text-danger small']) ?>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <?= $this->formLabel($form->get('price')) ?>
+                        <div class="input-group">
+                            <?= $this->formNumber($form->get('price')) ?>
+                            <span class="input-group-text">€</span>
+                        </div>
+                        <?= $this->formElementErrors($form->get('price'), 
+                        ['class' => 'text-danger small']) ?>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <?= $this->formLabel($form->get('stock')) ?>
+                        <?= $this->formNumber($form->get('stock')) ?>
+                        <?= $this->formElementErrors($form->get('stock'), 
+                        ['class' => 'text-danger small']) ?>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <?= $this->formLabel($form->get('img')) ?>
+                    <?= $this->formUrl($form->get('img')) ?>
+                    <?= $this->formElementErrors($form->get('img'), 
+                    ['class' => 'text-danger small']) ?>
+                    <small class="form-text text-muted">URL complète de l'image (ex: https://example.com/image.jpg)</small>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="<?= $this->url('product') ?>" class="btn btn-secondary">
+                        Annuler
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <?= $isEdit ? 'Mettre à jour' : 'Enregistrer' ?>
+                    </button>
+                </div>
+
+                <?= $this->form()->closeTag() ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<?php
+$product = $this->product;
+?>
+
+<h1>Supprimer un produit</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Confirmation de suppression</h4>
+            </div>
+            <div class="card-body">
+                <p class="alert alert-warning">
+                    <strong>Attention !</strong> Cette action est irréversible.
+                </p>
+
+                <p>Êtes-vous sûr de vouloir supprimer le produit suivant ?</p>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h5>
+                        <p class="card-text"><?= $this->escapeHtml($product->getDescription() ?? '') ?></p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Prix : <?= number_format($product->getPrice(), 2, ',', ' ') ?> €
+                                | Stock : <?= $this->escapeHtml((string) $product->getStock()) ?>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+
+                <form action="<?= $this->url('product', ['action' => 'delete', 'id' => $product->getId()]) ?>"
+                    method="post">
+                    <?php if (isset($this->form) && $this->form->has('csrf')): ?>
+                        <?= $this->formHidden($this->form->get('csrf')) ?>
+                    <?php endif; ?>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="<?= $this->url('product', ['action' => 'view', 'id' => $product->getId()]) ?>"
+                            class="btn btn-secondary">
+                            Annuler
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            Confirmer la suppression
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

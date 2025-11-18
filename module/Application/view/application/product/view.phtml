@@ -1,26 +1,71 @@
-<h1><?= $this->escapeHtml($this->pageTitle ?? 'Fallback') ?></h1>
+<?php
+/**
+ * Page de détail d'un produit
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Application\Model\Product $product
+ */
+$product = $this->product;
+?>
 
-<?php if (isset($this->product)): ?>
-    <div class="card">
-                    <img src="https://www.shutterstock.com/shutterstock/photos/2059817444/display_1500/stock-vector-no-image-available-photo-coming-soon-illustration-vector-2059817444.jpg"
-                        class="card-img-top object-fit-cover" alt="<?= $this->escapeHtml($product->getName()) ?>">
-                    <div class="card-body">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h5>
-                            <p class="card-text"><?= $this->escapeHtml($product->getDescription() ?? '') ?></p>
-                            <p class="card-text"><small
-                                    class="text-body-secondary"><?= number_format($product->getPrice(), 2, ',', ' ') ?>
-                                    €</small></p>
-                        </div>
+<h1><?= $this->escapeHtml($product->getName()) ?></h1>
 
-
-                        <a href="<?= $this->url('product', ['action' => 'view', 'id' => $product->getId()]) ?>"
-                            class="btn btn-primary btn-sm">
-                            Voir
-                        </a>
-                    </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="ratio ratio-16x9 mb-3">
+            <img src="<?= $this->escapeHtmlAttr($product->getImg() ?? 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg') ?>"
+                 class="img-fluid object-fit-cover rounded"
+                 alt="<?= $this->escapeHtml($product->getName()) ?>">
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h2>
+                
+                <p class="card-text">
+                    <?= $this->escapeHtml($product->getDescription() ?? 'Aucune description disponible.') ?>
+                </p>
+                
+                <hr>
+                
+                <div class="mb-3">
+                    <h3 class="text-primary">
+                        <?= number_format($product->getPrice(), 2, ',', ' ') ?> €
+                    </h3>
                 </div>
+                
+                <div class="mb-3">
+                    <p class="mb-0">
+                        <strong>Stock disponible :</strong> 
+                        <span class="badge bg-<?= $product->getStock() > 0 ? 'success' : 'danger' ?>">
+                            <?= $this->escapeHtml((string) $product->getStock()) ?>
+                        </span>
+                    </p>
+                </div>
+                
+                <?php if ($product->getCreatedAt()): ?>
+                    <p class="text-muted small">
+                        <strong>Créé le :</strong> <?= $this->escapeHtml($product->getCreatedAt()) ?>
+                    </p>
+                <?php endif; ?>
+                
+                <div class="mt-4">
+                    <a href="<?= $this->url('product') ?>" class="btn btn-secondary">
+                        Retour à la liste
+                    </a>
+                    
+                        <a href="<?= $this->url('product', ['action' => 'edit', 'id' => $product->getId()]) ?>" 
+                           class="btn btn-warning">
+                            Modifier
+                        </a>
+                        <a href="<?= $this->url('product', ['action' => 'delete', 'id' => $product->getId()]) ?>" 
+                           class="btn btn-danger">
+                            Supprimer
+                        </a>
 
-<?php else: ?>
-    <p>Produit non trouvé.</p>
-<?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

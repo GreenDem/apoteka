@@ -1,0 +1,9 @@
+<h1>Modifier le produit</h1>
+
+<?php if (isset($this->product)): ?>
+    <div class="alert alert-info">
+        <strong>Produit :</strong> <?= $this->escapeHtml($this->product->getName()) ?>
+    </div>
+<?php endif; ?>
+
+<?= $this->partial('application/product/form.phtml', ['form' => $this->form]) ?>

@@ -31,9 +31,11 @@ use Application\Controller\Factory\UserControllerFactory;
 use Application\Form\LoginForm;
 use Application\Form\RegisterForm;
 use Application\Form\UserForm;
-use Application\Model\ProductTableGateway;
 use Application\Model\UserTable;
 use Application\Model\UserTableGateway;
+use Application\Model\ProductTableGateway;
+use Application\Form\ProductForm;
+
 
 return [
     // ========== CONFIG TECHNIQUE PAR DÉFAUT ==========
@@ -162,12 +164,12 @@ return [
             AuthenticationServiceInterface::class => AuthenticationService::class, // Alias pour l'authentification
         ],
         'factories' => [
-            // --- Auth & sessions ---
+                // --- Auth & sessions ---
             SessionManager::class => static function ($container): SessionManager {
                 $sessionOptions = $container->get('config')['session_config'] ?? []; // Options de session par défaut
-                $sessionConfig  = new SessionConfig();
+                $sessionConfig = new SessionConfig();
                 $sessionConfig->setOptions($sessionOptions); // Configuration de la session
-
+            
                 $sessionManager = new SessionManager($sessionConfig);
                 SessionContainer::setDefaultManager($sessionManager);
 
@@ -191,14 +193,24 @@ return [
                     $container->get(Argon2DbAdapter::class)
                 );
             },
-            // --- Produits ---
+                // --- Produits ---
             Model\ProductTable::class => static function ($container) {
-                $tableGateway = $container->get(Model\ProductTableGateway::class);
-                return new Model\ProductTable($tableGateway);
+                return new Model\ProductTable(
+                    $container->get(Model\ProductTableGateway::class)
+                );
             },
             Model\ProductTableGateway::class => static function ($container) {
                 $dbAdapter = $container->get(AdapterInterface::class);
-                $hydrator  = new ReflectionHydrator();
+                $hydrator = new ReflectionHydrator();
+
+                // Stratégie pour le prix: DB (string/decimal) → Objet (float)
+                $priceStrategy = new ClosureStrategy(
+                    // hydrate : DB → Objet (lecture depuis DB)
+                    static fn($value): float => round((float) $value, 2), // Arrondi du prix à 2 décimales (€)
+                    // extract : Objet → DB (écriture vers DB) 
+                    static fn($value): float => round((float) $value, 2) // Arrondi du prix à 2 décimales (€)
+                );
+                $hydrator->addStrategy('price', $priceStrategy);
 
                 $resultSetPrototype = new HydratingResultSet(
                     $hydrator,
@@ -213,13 +225,13 @@ return [
                 );
             },
 
-            // --- Utilisateurs ---
+                // --- Utilisateurs ---
             UserTable::class => static function ($container) {
                 return new UserTable($container->get(UserTableGateway::class));
             },
             UserTableGateway::class => static function ($container) {
                 $dbAdapter = $container->get(AdapterInterface::class);
-                $hydrator  = new ClassMethodsHydrator();
+                $hydrator = new ClassMethodsHydrator();
                 $hydrator->setUnderscoreSeparatedKeys(true);
 
                 /** @var ClosureStrategy $rolesStrategy */
@@ -257,9 +269,11 @@ return [
                 $dbAdapter = $container->get(AdapterInterface::class);
                 return new UserForm($dbAdapter, true);
             },
-            // --- Auth forms ---
+                // --- Auth forms ---
             LoginForm::class => InvokableFactory::class,
             RegisterForm::class => InvokableFactory::class,
+                // --- Formulaires produits ---
+            ProductForm::class => InvokableFactory::class,
         ],
     ],
 ];
