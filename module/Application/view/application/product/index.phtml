@@ -3,32 +3,29 @@
 <?php if (empty($this->products)): ?>
     <p>Aucun produit disponible pour le moment.</p>
 <?php else: ?>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($this->products as $product): ?>
-                <tr>
-                    <td><?= $this->escapeHtml($product->getId()) ?></td>
-                    <td><?= $this->escapeHtml($product->getName()) ?></td>
-                    <td><?= number_format($product->getPrice(), 2, ',', ' ') ?> €</td>
-                    <td><?= $this->escapeHtml($product->getDescription() ?? '') ?></td>
-                    <td>
-                        <!-- Laminas Feature: Génération d'URL via le routeur -->
-                        <a href="<?= $this->url('product', ['action' => 'view', 'id' => $product->getId()]) ?>" 
-                           class="btn btn-primary btn-sm">
+    <div class="row row-cols-1 row-cols-md-4 g-4"> <?php foreach ($this->products as $product): ?>
+            <div class="col">
+                <div class="card">
+                    <img src="https://www.shutterstock.com/shutterstock/photos/2059817444/display_1500/stock-vector-no-image-available-photo-coming-soon-illustration-vector-2059817444.jpg"
+                        class="card-img-top object-fit-cover" alt="<?= $this->escapeHtml($product->getName()) ?>">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h5>
+                            <p class="card-text"><?= $this->escapeHtml($product->getDescription() ?? '') ?></p>
+                            <p class="card-text"><small
+                                    class="text-body-secondary"><?= number_format($product->getPrice(), 2, ',', ' ') ?>
+                                    €</small></p>
+                        </div>
+
+
+                        <a href="<?= $this->url('product', ['action' => 'view', 'id' => $product->getId()]) ?>"
+                            class="btn btn-primary btn-sm">
                             Voir
                         </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 <?php endif; ?>
+

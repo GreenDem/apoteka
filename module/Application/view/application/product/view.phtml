@@ -2,16 +2,25 @@
 
 <?php if (isset($this->product)): ?>
     <div class="card">
-        <div class="card-body">
-            <h2><?= $this->escapeHtml($this->product->getName()) ?></h2>
-            <p><strong>ID:</strong> <?= $this->escapeHtml($this->product->getId()) ?></p>
-            <p><strong>Prix:</strong> <?= number_format($this->product->getPrice(), 2, ',', ' ') ?> €</p>
-            <p><strong>Description:</strong></p>
-            <p><?= $this->escapeHtml($this->product->getDescription() ?? 'Aucune description') ?></p>
-            <!-- Laminas Feature: Génération d'URL nommée -->
-            <a href="<?= $this->url('product') ?>" class="btn btn-secondary">Retour à la liste</a>
-        </div>
-    </div>
+                    <img src="https://www.shutterstock.com/shutterstock/photos/2059817444/display_1500/stock-vector-no-image-available-photo-coming-soon-illustration-vector-2059817444.jpg"
+                        class="card-img-top object-fit-cover" alt="<?= $this->escapeHtml($product->getName()) ?>">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $this->escapeHtml($product->getName()) ?></h5>
+                            <p class="card-text"><?= $this->escapeHtml($product->getDescription() ?? '') ?></p>
+                            <p class="card-text"><small
+                                    class="text-body-secondary"><?= number_format($product->getPrice(), 2, ',', ' ') ?>
+                                    €</small></p>
+                        </div>
+
+
+                        <a href="<?= $this->url('product', ['action' => 'view', 'id' => $product->getId()]) ?>"
+                            class="btn btn-primary btn-sm">
+                            Voir
+                        </a>
+                    </div>
+                </div>
+
 <?php else: ?>
     <p>Produit non trouvé.</p>
 <?php endif; ?>
