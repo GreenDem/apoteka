@@ -19,11 +19,7 @@ CREATE TABLE `users` (
 	`last_login_at` TIMESTAMP NULL DEFAULT NULL,
 	PRIMARY KEY (`id`) USING BTREE,
 	UNIQUE INDEX `username` (`username`) USING BTREE
-)
-COLLATE='utf8mb4_uca1400_ai_ci'
-ENGINE=InnoDB
-;
-
+);
 
 create table if not exists orders (
     id int auto_increment primary key,
@@ -40,6 +36,8 @@ create table if not exists products (
     description text,
     price decimal(10, 2) not null,
     stock int not null,
+    img varchar(255) not null,
+    updated_at timestamp default current_timestamp on update current_timestamp,
     created_at timestamp default current_timestamp
 );
 
