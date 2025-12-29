@@ -1,0 +1,40 @@
+{
+  "plannedShippingDateTime": "2025-02-15T10:00:00Z", 
+  "serviceCode": "P",
+  "labelFormat": "A4",
+  "shipper": {
+    "name": "Ma Boutique",
+    "address1": "Avenue Louise 50",
+    "city": "Bruxelles",
+    "postalCode": "1050",
+    "countryCode": "BE",
+    "phone": "+33142567890",
+    "email": "expedition@maboutique.fr"
+  },
+  "receiver": {
+    "name": "Mme DUPONT Jean",
+    "address1": "Rue de la Loi 10",
+    "city": "Bruxelles",
+    "postalCode": "1000",
+    "countryCode": "BE", 
+    "phone": "+33612345678",
+    "email": "jean.dupont@email.com"
+  },
+  "packages": [
+    {
+      "weight": 2.5,
+      "length": 30,
+      "width": 20,
+      "height": 15,
+      "description": "Livre PHP"
+    },
+    {
+      "weight": 0.5,
+      "length": 15,
+      "width": 15,
+      "height": 2,
+      "description": "CD Audio"
+    }
+  ]
+}
+

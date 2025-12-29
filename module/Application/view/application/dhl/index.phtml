@@ -1,0 +1,333 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle('Créer une étiquette DHL');
+?>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-box-seam"></i> Créer une étiquette DHL
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <?php if ($this->flashMessenger()->hasMessages()): ?>
+                        <?php foreach ($this->flashMessenger()->getMessages() as $message): ?>
+                            <div class="alert alert-info"><?= $this->escapeHtml($message) ?></div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <?php if ($this->flashMessenger()->hasErrorMessages()): ?>
+                        <?php foreach ($this->flashMessenger()->getErrorMessages() as $message): ?>
+                            <div class="alert alert-danger"><?= $this->escapeHtml($message) ?></div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <form method="post" action="<?= $this->url('dhl', ['action' => 'create']) ?>" id="dhl-form">
+                        <div class="row">
+                            <!-- Expéditeur -->
+                            <div class="col-md-6">
+                                <h5 class="border-bottom pb-2 mb-3">Expéditeur</h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Nom *</label>
+                                    <input type="text" name="shipper_name" id="shipper_name" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Adresse *</label>
+                                    <input type="text" name="shipper_address1" id="shipper_address1" class="form-control" required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Ville *</label>
+                                        <input type="text" name="shipper_city" id="shipper_city" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Code postal *</label>
+                                        <input type="text" name="shipper_postalCode" id="shipper_postalCode" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Pays *</label>
+                                    <select name="shipper_countryCode" id="shipper_countryCode" class="form-select" required>
+                                        <option value="FR">France</option>
+                                        <option value="BE">Belgique</option>
+                                        <option value="CH">Suisse</option>
+                                        <option value="DE">Allemagne</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="tel" name="shipper_phone" id="shipper_phone" class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="shipper_email" id="shipper_email" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Destinataire -->
+                            <div class="col-md-6">
+                                <h5 class="border-bottom pb-2 mb-3">Destinataire</h5>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Nom *</label>
+                                    <input type="text" name="receiver_name" id="receiver_name" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Adresse *</label>
+                                    <input type="text" name="receiver_address1" id="receiver_address1" class="form-control" required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Ville *</label>
+                                        <input type="text" name="receiver_city" id="receiver_city" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Code postal *</label>
+                                        <input type="text" name="receiver_postalCode" id="receiver_postalCode" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Pays *</label>
+                                    <select name="receiver_countryCode" id="receiver_countryCode" class="form-select" required>
+                                        <option value="FR">France</option>
+                                        <option value="BE">Belgique</option>
+                                        <option value="CH">Suisse</option>
+                                        <option value="DE">Allemagne</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="tel" name="receiver_phone" id="receiver_phone" class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="receiver_email" id="receiver_email" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Colis -->
+                        <h5 class="mb-3">Informations du colis</h5>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Poids (kg) *</label>
+                                <input type="number" name="package_weight" id="package_weight" step="0.1" min="0.1" class="form-control" value="1.0" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Longueur (cm)</label>
+                                <input type="number" name="package_length" id="package_length" class="form-control" value="30">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Largeur (cm)</label>
+                                <input type="number" name="package_width" id="package_width" class="form-control" value="20">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Hauteur (cm)</label>
+                                <input type="number" name="package_height" id="package_height" class="form-control" value="15">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <input type="text" name="package_description" id="package_description" class="form-control" placeholder="Description du contenu">
+                        </div>
+
+                        <hr>
+
+                        <!-- Options -->
+                        <h5 class="mb-3">Options</h5>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Format étiquette</label>
+                                <select name="labelFormat" class="form-select">
+                                    <option value="A4">A4</option>
+                                    <option value="A6">A6</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Date d'expédition</label>
+                                <input type="datetime-local" name="plannedShippingDateTime" id="plannedShippingDateTime" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Section pour vérifier les tarifs -->
+                        <div class="mb-4">
+                            <button type="button" id="check-rates-btn" class="btn btn-info">
+                                <i class="bi bi-search"></i> Vérifier les tarifs et services disponibles
+                            </button>
+                            <div id="rates-loading" class="mt-3" style="display: none;">
+                                <div class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                                <span class="ms-2">Vérification en cours...</span>
+                            </div>
+                        </div>
+
+                        <!-- Affichage des tarifs/services -->
+                        <div id="rates-results" style="display: none;">
+                            <h5 class="mb-3">Services DHL disponibles</h5>
+                            <div id="rates-list" class="list-group mb-3"></div>
+                            <input type="hidden" name="selectedServiceCode" id="selectedServiceCode" value="">
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="<?= $this->url('home') ?>" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-primary" id="create-label-btn" disabled>
+                                <i class="bi bi-check-circle"></i> Créer l'étiquette
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkRatesBtn = document.getElementById('check-rates-btn');
+    const ratesLoading = document.getElementById('rates-loading');
+    const ratesResults = document.getElementById('rates-results');
+    const ratesList = document.getElementById('rates-list');
+    const selectedServiceCode = document.getElementById('selectedServiceCode');
+    const createLabelBtn = document.getElementById('create-label-btn');
+    const form = document.getElementById('dhl-form');
+
+    checkRatesBtn.addEventListener('click', function() {
+        // Vérifier que les champs obligatoires sont remplis
+        const requiredFields = [
+            'shipper_name', 'shipper_address1', 'shipper_city', 'shipper_postalCode', 'shipper_countryCode',
+            'receiver_name', 'receiver_address1', 'receiver_city', 'receiver_postalCode', 'receiver_countryCode',
+            'package_weight'
+        ];
+
+        let isValid = true;
+        requiredFields.forEach(function(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            alert('Veuillez remplir tous les champs obligatoires avant de vérifier les tarifs.');
+            return;
+        }
+
+        // Collecter les données du formulaire
+        const formData = new FormData(form);
+        
+        // Afficher le loader
+        ratesLoading.style.display = 'block';
+        ratesResults.style.display = 'none';
+        checkRatesBtn.disabled = true;
+
+        // Appel AJAX
+        fetch('<?= $this->url('dhl', ['action' => 'check-rates']) ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            ratesLoading.style.display = 'none';
+            checkRatesBtn.disabled = false;
+
+            if (data.success && data.rates && data.rates.length > 0) {
+                // Afficher les résultats
+                ratesList.innerHTML = '';
+                data.rates.forEach(function(rate, index) {
+                    const rateItem = document.createElement('div');
+                    rateItem.className = 'list-group-item list-group-item-action';
+                    rateItem.style.cursor = 'pointer';
+                    
+                    let priceHtml = '';
+                    if (rate.price !== null) {
+                        priceHtml = `<strong class="text-success">${rate.price} ${rate.currency}</strong>`;
+                    } else {
+                        priceHtml = '<span class="text-muted">Prix non disponible</span>';
+                    }
+
+                    let deliveryHtml = '';
+                    if (rate.deliveryDate) {
+                        deliveryHtml = `<small class="text-muted d-block">Livraison estimée: ${rate.deliveryDate}</small>`;
+                    }
+
+                    rateItem.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <div>
+                                <h6 class="mb-1">${rate.name} <span class="badge bg-secondary">${rate.code}</span></h6>
+                                <p class="mb-1">${priceHtml}</p>
+                                ${deliveryHtml}
+                            </div>
+                            <div>
+                                <input type="radio" name="serviceRadio" value="${rate.code}" id="service_${index}" 
+                                       onchange="selectService('${rate.code}')">
+                            </div>
+                        </div>
+                    `;
+
+                    rateItem.addEventListener('click', function() {
+                        document.getElementById('service_' + index).checked = true;
+                        selectService(rate.code);
+                    });
+
+                    ratesList.appendChild(rateItem);
+                });
+
+                ratesResults.style.display = 'block';
+            } else {
+                alert('Aucun service disponible ou erreur: ' + (data.error || 'Erreur inconnue'));
+            }
+        })
+        .catch(error => {
+            ratesLoading.style.display = 'none';
+            checkRatesBtn.disabled = false;
+            alert('Erreur lors de la vérification des tarifs: ' + error.message);
+        });
+    });
+
+    // Fonction pour sélectionner un service
+    window.selectService = function(serviceCode) {
+        selectedServiceCode.value = serviceCode;
+        createLabelBtn.disabled = false;
+        
+        // Mettre en évidence la sélection
+        document.querySelectorAll('.list-group-item').forEach(function(item) {
+            item.classList.remove('active');
+        });
+        event.target.closest('.list-group-item').classList.add('active');
+    };
+});
+</script>
+
+<style>
+.list-group-item.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+</style>

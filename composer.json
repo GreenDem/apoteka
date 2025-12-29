@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "guzzlehttp/guzzle": "7.9",
         "laminas/laminas-authentication": "^2.19",
         "laminas/laminas-component-installer": "^3.4.0",
         "laminas/laminas-db": "^2.20",
@@ -37,7 +38,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "App\\": "module/Dhl/src/",
+            "Dhl\\": "module/Dhl/"
         }
     },
     "autoload-dev": {

@@ -117,6 +117,18 @@ return [
             ],
 
 
+            'dhl' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/dhl[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\DhlController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
+
+
             'auth' => [
                 'type' => Segment::class,
                 'options' => [
@@ -137,6 +149,7 @@ return [
             Controller\ProductController::class => ProductControllerFactory::class,
             Controller\AuthController::class => AuthControllerFactory::class,
             Controller\UserController::class => UserControllerFactory::class,
+            Controller\DhlController::class => InvokableFactory::class,
         ],
     ],
 

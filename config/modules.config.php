@@ -15,4 +15,5 @@ return [
     'Laminas\Mvc\Plugin\FlashMessenger',
     'Application',
     'Laminas\Db',
+    'Dhl',
 ];

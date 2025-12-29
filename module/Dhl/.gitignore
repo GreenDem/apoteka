@@ -1,0 +1,38 @@
+# Dependencies
+/vendor/
+
+# Configuration locale
+config/accounts.local.php
+
+# IMPORTANT: Keep accounts.php in .gitignore if it contains real credentials
+# Use accounts.php.template as base and never commit real credentials
+# config/accounts.php
+
+# Labels générées (PDFs)
+/labels/*.pdf
+
+# Exclure les labels de test mais garder le dossier
+/labels/test-*.pdf
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# PHPUnit
+.phpunit.result.cache
+/coverage/
+
+# Temporary files
+*.tmp
+*.temp
+

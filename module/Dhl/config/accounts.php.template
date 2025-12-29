@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Configuration template for DHL accounts.
+ * 
+ * SETUP INSTRUCTIONS:
+ * 1. Copy this file to: config/accounts.php
+ * 2. Replace placeholder values with your actual DHL API credentials
+ * 3. Never commit accounts.php to version control
+ * 
+ * Get your credentials from: https://developer.dhl.com/
+ * 
+ * @return array<string, array{site_id: string, password: string, account_number: string, base_url: string, auth_url: string}>
+ */
+return [
+    // Default account configuration
+    'default' => [
+        // API Key (site_id) - Get from DHL Developer Portal
+        'site_id'        => 'YOUR_DHL_API_KEY_HERE',
+        
+        // API Secret (password) - Get from DHL Developer Portal
+        'password'       => 'YOUR_DHL_API_SECRET_HERE',
+        
+        // DHL Account Number - Your DHL Express account number
+        'account_number' => 'YOUR_DHL_ACCOUNT_NUMBER',
+        
+        // API Base URL
+        // Sandbox: https://express.api.dhl.com/mydhlapi/test
+        // Production: https://express.api.dhl.com/mydhlapi
+        'base_url'       => getenv('DHL_BASE_URL') ?: 'https://express.api.dhl.com/mydhlapi/test',
+        
+        // OAuth 2.0 Token URL
+        // Sandbox: https://api-sandbox.dhl.com/auth/v1/token
+        // Production: https://api.dhl.com/auth/v1/token
+        'auth_url'       => getenv('DHL_AUTH_URL') ?: 'https://api-sandbox.dhl.com/auth/v1/token',
+    ],
+
+    // Example: Additional account (optional)
+    // 'secondary' => [
+    //     'site_id'        => 'ANOTHER_API_KEY',
+    //     'password'       => 'ANOTHER_API_SECRET',
+    //     'account_number' => 'ANOTHER_ACCOUNT_NUMBER',
+    //     'base_url'       => 'https://express.api.dhl.com/mydhlapi',
+    //     'auth_url'       => 'https://api.dhl.com/auth/v1/token',
+    // ],
+];
+
